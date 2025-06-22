@@ -62,9 +62,3 @@ type Job struct {
 	Salary_max     string `json:"salaryMax,omitempty"`
 	// Add more fields as needed from Jobicy API
 }
-
-// /////////////
-// Jobicy API client
-type Jobicy struct {
-	BaseURL string
-}
