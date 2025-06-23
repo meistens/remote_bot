@@ -6,21 +6,17 @@ import (
 	"io"
 	"net/http"
 	"tg-remote/internal/bot"
+	"tg-remote/internal/types"
 )
 
-// Jobicy API client
-type Jobicy struct {
-	BaseURL string
-}
-
 // Jobicy
-func NewJobicyClient() *Jobicy {
-	return &Jobicy{
+func NewJobicyClient() *types.Jobicy {
+	return &types.Jobicy{
 		BaseURL: "http://jobicy.com/api/v2/remote-jobs",
 	}
 }
 
-func (client *Jobicy) GetJobs(count int, geo string, industry string, tag string) (*bot.JobicyResponse, error) {
+func GetJobs(client *types.Jobicy, count int, geo string, industry string, tag string) (*bot.JobicyResponse, error) {
 	url := fmt.Sprintf("%s?count=%d", client.BaseURL, count)
 
 	// add optional params, incase for tweaking
