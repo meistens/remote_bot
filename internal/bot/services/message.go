@@ -3,21 +3,20 @@ package services
 import (
 	"fmt"
 	"strings"
-	"tg-remote/internal/bot"
+	"tg-remote/internal/types"
 )
 
-// Format for TG msg, generated skello
-func formatJobMsg(job bot.Job) string {
+// FormatJobMsg formats a job for Telegram message
+func FormatJobMsg(job types.Job) string {
 	var message strings.Builder
 
 	message.WriteString(fmt.Sprintf("<b>* %s</b>\n", job.JobTitle))
 
 	message.WriteString(fmt.Sprintf("<b>*Company:</b> %s\n", job.CompanyName))
 
-	// TODO: Add your desired fields here
-	// Examples of fields you can use:
+	// Add your desired fields here
 	message.WriteString(fmt.Sprintf("<b>📍 Location:</b> %s\n", job.JobGeo))
-	message.WriteString(fmt.Sprintf("<b>💼 Type:</b> %s\n", job.JobType))
+	//	message.WriteString(fmt.Sprintf("<b>💼 Type:</b> %s\n", job.JobType))
 	message.WriteString(fmt.Sprintf("<b>📊 Level:</b> %s\n", job.JobLevel))
 
 	// Salary fields (if available)
@@ -45,5 +44,4 @@ func formatJobMsg(job bot.Job) string {
 	message.WriteString("\n" + strings.Repeat("─", 30) + "\n\n")
 
 	return message.String()
-
 }

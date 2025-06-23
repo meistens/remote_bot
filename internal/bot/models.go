@@ -39,26 +39,26 @@ type SendMessagePayload struct {
 }
 
 // Jobicy API structs
-type JobicyResponse struct { // Job is the API response, Count the number of listings from query params
-	Jobs  []Job `json:"jobs"`
-	Count int   `json:"count"`
-	// add if to customize
-}
+// type JobicyResponse struct { // Job is the API response, Count the number of listings from query params
+// 	Jobs  []Job `json:"jobs"`
+// 	Count int   `json:"count"`
+// 	// add if to customize
+// }
 
 // Response
-type Job struct {
-	ID             int    `json:"id"`
-	URL            string `json:"url"`
-	JobTitle       string `json:"jobTitle"`
-	CompanyName    string `json:"companyName"`
-	CompanyLogo    string `json:"companyLogo"`
-	JobType        string `json:"jobType"`
-	JobGeo         string `json:"jobGeo"`
-	JobLevel       string `json:"jobLevel"`
-	JobExcerpt     string `json:"jobExcerpt"`
-	JobDescription string `json:"jobDescription"`
-	PubDate        string `json:"pubDate"`
-	Salary_min     string `json:"salaryMin,omitempty"`
-	Salary_max     string `json:"salaryMax,omitempty"`
-	// Add more fields as needed from Jobicy API
-}
+// type Job struct {
+// 	ID             int    `json:"id"`
+// 	URL            string `json:"url"`
+// 	JobTitle       string `json:"jobTitle"`
+// 	CompanyName    string `json:"companyName"`
+// 	CompanyLogo    string `json:"companyLogo"`
+// 	JobType        string `json:"jobType"`
+// 	JobGeo         string `json:"jobGeo"`
+// 	JobLevel       string `json:"jobLevel"`
+// 	JobExcerpt     string `json:"jobExcerpt"`
+// 	JobDescription string `json:"jobDescription"`
+// 	PubDate        string `json:"pubDate"`
+// 	Salary_min     string `json:"salaryMin,omitempty"`
+// 	Salary_max     string `json:"salaryMax,omitempty"`
+// 	// Add more fields as needed from Jobicy API
+// }

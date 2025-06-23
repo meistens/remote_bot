@@ -24,7 +24,7 @@ func NewTelegramBot(token string) *TelegramBot {
 }
 
 // Receive incoming updates using long polling
-func GetUpdates(bot *TelegramBot) ([]Update, error) {
+func (bot *TelegramBot) GetUpdates() ([]Update, error) {
 	url := fmt.Sprintf("%s/getUpdates?offset=%d&timeout=30", bot.BaseURL, bot.Offset)
 
 	resp, err := http.Get(url)
@@ -78,6 +78,6 @@ func SendMessage(bot *TelegramBot, chatID int64, text string) error {
 }
 
 // Offset counter
-func UpdateOffset(bot *TelegramBot, updateID int) {
+func (bot *TelegramBot) UpdateOffset(updateID int) {
 	bot.Offset = updateID + 1
 }

@@ -5,29 +5,29 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"tg-remote/internal/bot"
 	"tg-remote/internal/types"
 )
 
-// Jobicy
+// NewJobicyClient creates a new Jobicy client
 func NewJobicyClient() *types.Jobicy {
 	return &types.Jobicy{
 		BaseURL: "http://jobicy.com/api/v2/remote-jobs",
 	}
 }
 
-func GetJobs(client *types.Jobicy, count int, geo string, industry string, tag string) (*bot.JobicyResponse, error) {
+// GetJobs fetches jobs from Jobicy API
+func GetJobs(client *types.Jobicy, count int, geo string, industry string, tag string) (*types.JobicyResponse, error) {
 	url := fmt.Sprintf("%s?count=%d", client.BaseURL, count)
 
-	// add optional params, incase for tweaking
+	// add optional params
 	if geo != "" {
 		url += "&geo=" + geo
 	}
 	if industry != "" {
-		url += "&industry" + industry
+		url += "&industry=" + industry
 	}
 	if tag != "" {
-		url += "&tag" + tag
+		url += "&tag=" + tag
 	}
 
 	resp, err := http.Get(url)
@@ -41,7 +41,7 @@ func GetJobs(client *types.Jobicy, count int, geo string, industry string, tag s
 		return nil, fmt.Errorf("failed to read response: %w", err)
 	}
 
-	var jobicyResp bot.JobicyResponse
+	var jobicyResp types.JobicyResponse
 	if err := json.Unmarshal(body, &jobicyResp); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal response: %w", err)
 	}
