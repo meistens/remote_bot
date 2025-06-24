@@ -10,6 +10,7 @@ import (
 )
 
 // handleMsg handles incoming messages
+// straight up bot actions
 func HandleMsg(bot *TelegramBot, message Message) {
 	command, args := utils.ParseCommand(message.Text)
 
