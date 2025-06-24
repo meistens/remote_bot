@@ -15,6 +15,7 @@ type TelegramBot struct {
 	Offset  int
 }
 
+// Part of the TG conn. pool
 func NewTelegramBot(token string) *TelegramBot {
 	return &TelegramBot{
 		Token:   token,
