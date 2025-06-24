@@ -20,6 +20,9 @@ func GetJobs(client *types.Jobicy, count int, geo string, industry string, tag s
 	url := fmt.Sprintf("%s?count=%d", client.BaseURL, count)
 
 	// add optional params
+	// since it is for educational purposes, and some params like geo
+	// doesn't apply to certain geolocations, lets leave it at that
+	// afterall, they are optional
 	if geo != "" {
 		url += "&geo=" + geo
 	}
