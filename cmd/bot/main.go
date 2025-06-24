@@ -24,8 +24,8 @@ func main() {
 	// Initialize Telegram bot
 	telegramBot := bot.NewTelegramBot(botToken)
 
-	log.Println("🤖 Telegram bot started successfully!")
-	log.Println("📡 Listening for updates...")
+	log.Println("Telegram bot started successfully!")
+	log.Println("Listening for updates...")
 
 	// Main polling loop
 	for {
