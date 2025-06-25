@@ -31,7 +31,7 @@ func HandleMsg(bot *TelegramBot, message Message) {
 		SendMessage(bot, message.Chat.ID, welcomeMsg)
 
 	case "/help":
-		helpMsg := `📚 Available Commands:
+		helpMsg := `Available Commands:
 
 		<b>/jobs</b> - Get latest remote jobs (default: 5 jobs)
 
@@ -77,12 +77,12 @@ func HandleMsg(bot *TelegramBot, message Message) {
 		}
 
 		if len(jobResp.Jobs) == 0 {
-			SendMessage(bot, message.Chat.ID, "😔 No jobs found with the specified criteria. Try different filters.")
+			SendMessage(bot, message.Chat.ID, "No jobs found with the specified criteria. Try different filters.")
 			return
 		}
 		// Send jobs (split into multiple messages if needed)
 		var messageBuffer strings.Builder
-		messageBuffer.WriteString(fmt.Sprintf("🎯 Found %d remote jobs:\n\n", len(jobResp.Jobs)))
+		messageBuffer.WriteString(fmt.Sprintf("Found %d remote jobs:\n\n", len(jobResp.Jobs)))
 
 		for i, job := range jobResp.Jobs {
 			jobMsg := services.FormatJobMsg(job)
@@ -94,7 +94,7 @@ func HandleMsg(bot *TelegramBot, message Message) {
 
 				// Start new buffer
 				messageBuffer.Reset()
-				messageBuffer.WriteString(fmt.Sprintf("📋 Continuing jobs list (%d/%d):\n\n", i+1, len(jobResp.Jobs)))
+				messageBuffer.WriteString(fmt.Sprintf("Continuing jobs list (%d/%d):\n\n", i+1, len(jobResp.Jobs)))
 			}
 
 			messageBuffer.WriteString(jobMsg)
@@ -105,7 +105,7 @@ func HandleMsg(bot *TelegramBot, message Message) {
 		}
 
 	default:
-		SendMessage(bot, message.Chat.ID, "❓ Unknown command. Type /help for available commands.")
+		SendMessage(bot, message.Chat.ID, "Unknown command. Type /help for available commands.")
 
 	}
 }
