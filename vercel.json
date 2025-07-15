@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "internal/api/webhook.go": {
+      "runtime": "go1.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "internal/api/webhook",
+      "destination": "internal/api/webhook.go"
+    }
+  ],
+  "env": {
+    "TOKEN": "@telegram_bot_token"
+  }
+}
