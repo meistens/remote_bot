@@ -8,51 +8,22 @@ import (
 	"net/http"
 )
 
-// TG Bot Conn. Pool
+// TG Bot Connection Pool
 type TelegramBot struct {
 	Token   string
 	BaseURL string
-	Offset  int
 }
 
-// Part of the TG conn. pool
+// Create new Telegram bot instance
 func NewTelegramBot(token string) *TelegramBot {
 	return &TelegramBot{
 		Token:   token,
 		BaseURL: fmt.Sprintf("https://api.telegram.org/bot%s", token),
-		Offset:  0,
 	}
 }
 
-// Receive incoming updates using long polling
-func (bot *TelegramBot) GetUpdates() ([]Update, error) {
-	url := fmt.Sprintf("%s/getUpdates?offset=%d&timeout=30", bot.BaseURL, bot.Offset)
-
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get updates: %w", err)
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read response body: %w", err)
-	}
-
-	var telegramResp TelegramResponse
-	if err := json.Unmarshal(body, &telegramResp); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal response: %w", err)
-	}
-
-	if !telegramResp.OK {
-		return nil, fmt.Errorf("telegram API returned error")
-	}
-
-	return telegramResp.Result, nil
-}
-
-// Send text message, on success, sent Message is returned
-func SendMessage(bot *TelegramBot, chatID int64, text string) error {
+// SendMessage sends a text message to the specified chat
+func (bot *TelegramBot) SendMessage(chatID int64, text string) error {
 	payload := SendMessagePayload{
 		ChatID:    chatID,
 		Text:      text,
@@ -78,7 +49,43 @@ func SendMessage(bot *TelegramBot, chatID int64, text string) error {
 	return nil
 }
 
-// Offset counter
-func (bot *TelegramBot) UpdateOffset(updateID int) {
-	bot.Offset = updateID + 1
+// SetWebhook sets the webhook URL for the bot
+func (bot *TelegramBot) SetWebhook(webhookURL string) error {
+	payload := map[string]string{
+		"url": webhookURL,
+	}
+
+	jsonPayload, err := json.Marshal(payload)
+	if err != nil {
+		return fmt.Errorf("failed to marshal webhook payload: %w", err)
+	}
+
+	url := fmt.Sprintf("%s/setWebhook", bot.BaseURL)
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		return fmt.Errorf("failed to set webhook: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("webhook setup error: %s", string(body))
+	}
+	return nil
+}
+
+// DeleteWebhook removes the webhook
+func (bot *TelegramBot) DeleteWebhook() error {
+	url := fmt.Sprintf("%s/deleteWebhook", bot.BaseURL)
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer([]byte("{}")))
+	if err != nil {
+		return fmt.Errorf("failed to delete webhook: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("webhook deletion error: %s", string(body))
+	}
+	return nil
 }
