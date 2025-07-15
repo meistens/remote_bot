@@ -9,8 +9,5 @@
       "source": "internal/api/webhook",
       "destination": "internal/api/webhook.go"
     }
-  ],
-  "env": {
-    "TOKEN": "@telegram_bot_token"
-  }
+  ]
 }
