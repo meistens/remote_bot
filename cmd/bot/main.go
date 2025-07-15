@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"tg-remote/internal/bot"
+	"tg-remote/api"
+
+	// "tg-remote/internal/bot"
 
 	"github.com/dotenv-org/godotenvvault"
 )
@@ -31,7 +33,7 @@ func main() {
 	}
 
 	// Create bot instance
-	telegramBot := bot.NewTelegramBot(botToken)
+	telegramBot := api.NewTelegramBot(botToken)
 
 	if *delete {
 		// Delete webhook
