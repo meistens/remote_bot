@@ -212,6 +212,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	// html
+	w.Header().Set("Content-Type", "text/html")
 
 	// Handle preflight requests
 	if r.Method == "OPTIONS" {
@@ -262,6 +264,49 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	html := `
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Remote Jobs Telegram Bot</title>
+			<style>
+				body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+				.status { color: green; font-weight: bold; }
+				.endpoint { background: #f5f5f5; padding: 10px; border-radius: 5px; margin: 10px 0; }
+				code { background: #f0f0f0; padding: 2px 4px; border-radius: 3px; }
+			</style>
+		</head>
+		<body>
+			<h1>Remote Jobs Telegram Bot</h1>
+			<p class="status">✅ Bot is running and ready to receive webhooks!</p>
+
+			<h2>How to Use:</h2>
+			<ol>
+				<li>Find the bot on Telegram</li>
+				<li>Send <code>/start</code> to begin</li>
+				<li>Use <code>/jobs</code> to search for remote jobs</li>
+				<li>Use <code>/help</code> for more commands</li>
+			</ol>
+
+			<h2>Available Commands:</h2>
+			<ul>
+				<li><code>/jobs</code> - Get latest remote jobs</li>
+				<li><code>/jobs --count 10</code> - Get specific number of jobs</li>
+				<li><code>/jobs --geo USA</code> - Filter by location</li>
+				<li><code>/jobs --tag python</code> - Filter by technology</li>
+			</ul>
+
+			<div class="endpoint">
+				<strong>Webhook Endpoint:</strong> <code>POST /api/webhook</code>
+			</div>
+
+			<p><em>This page confirms your bot is deployed successfully.</em></p>
+		</body>
+		</html>
+		`
+
+	fmt.Fprint(w, html)
 
 	// Return status
 	w.WriteHeader(http.StatusOK)
